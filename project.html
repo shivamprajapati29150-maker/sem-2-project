@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Student Attendance Management System</title>
+<script src="project.jsx"></script>
+<style>
+
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f4f9;
+    margin:0;
+    padding:20px;
+    text-align:center;
+}
+
+h1{
+    color:#0f172a;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    margin:20px 0;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+input{
+    padding:10px;
+    margin:5px;
+    border:1px solid #ccc;
+    border-radius:8px;
+}
+
+button{
+    padding:10px 15px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    color:white;
+}
+
+.add-btn{
+    background:#2563eb;
+}
+
+.present{
+    background:#16a34a;
+}
+
+.absent{
+    background:#dc2626;
+}
+
+.predict{
+    background:#7c3aed;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+}
+
+th{
+    background:linear-gradient(90deg,#7c3aed,#3b82f6);
+    color:white;
+    padding:12px;
+}
+
+td{
+    padding:12px;
+    border-bottom:1px solid #ddd;
+}
+
+#percentage{
+    font-size:50px;
+    font-weight:bold;
+    color:#4f46e5;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Student Attendance Management System</h1>
+<p>Track and manage attendance efficiently</p>
+
+<div class="card">
+<h2>Date Information</h2>
+
+<input type="date" id="startDate" onchange="showDateRange()">
+<input type="date" id="endDate" onchange="showDateRange()">
+
+<p id="dateRange"></p>
+<p id="currentDate"></p>
+</div>
+
+<div class="card">
+
+<h2>Add Student</h2>
+
+<input type="text" id="studentName" placeholder="Student Name">
+
+<input type="number" id="studentRoll" placeholder="Roll Number">
+
+<button class="add-btn" onclick="addStudent()">
+Add Student
+</button>
+
+</div>
+
+<div class="card">
+
+<h2>Mark Attendance</h2>
+
+<table>
+
+<thead>
+<tr>
+<th>Name</th>
+<th>Roll No</th>
+<th>Status</th>
+</tr>
+</thead>
+
+<tbody id="studentTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+<div class="card">
+
+<h2>Current Attendance</h2>
+
+<div id="percentage">0%</div>
+
+</div>
+
+<div class="card">
+
+<h2>Attendance Predictor</h2>
+
+<input type="number"
+id="futureDays"
+placeholder="Enter Future Classes">
+
+<br><br>
+
+<button class="predict"
+onclick="predictPresent()">
+If All Present
+</button>
+
+<button class="predict"
+onclick="predictAbsent()">
+If All Absent
+</button>
+
+<p id="predictionResult"></p>
+
+</div>
+
+</div>
+
+<script>
+
+let totalClasses = 0;
+let presentClasses = 0;
+
+let today = new Date();
+
+document.getElementById("currentDate").innerHTML =
+"Today : " +
+today.toLocaleDateString('en-US',{
+weekday:'long',
+year:'numeric',
+month:'long',
+day:'numeric'
+});
+
+function showDateRange(){
+
+let start =
+document.getElementById("startDate").value;
+
+let end =
+document.getElementById("endDate").value;
+
+if(start && end){
+
+document.getElementById("dateRange").innerHTML =
+"Attendance Period : " + start +
+" To " + end;
+
+}
+}
+
+function addStudent(){
+
+let name =
+document.getElementById("studentName").value;
+
+let roll =
+document.getElementById("studentRoll").value;
+
+if(name==="" || roll===""){
+alert("Fill all details");
+return;
+}
+
+let row =
+document.createElement("tr");
+
+row.innerHTML = `
+<td>${name}</td>
+<td>${roll}</td>
+<td>
+<button class="present"
+onclick="markAttendance('present')">
+Present
+</button>
+
+<button class="absent"
+onclick="markAttendance('absent')">
+Absent
+</button>
+</td>
+`;
+
+document.getElementById("studentTable")
+.appendChild(row);
+
+document.getElementById("studentName").value="";
+document.getElementById("studentRoll").value="";
+}
+
+function markAttendance(status){
+
+totalClasses++;
+
+if(status==="present"){
+presentClasses++;
+}
+
+updateAttendance();
+}
+
+function updateAttendance(){
+
+let percentage = 0;
+
+if(totalClasses>0){
+
+percentage =
+(presentClasses/totalClasses)*100;
+
+}
+
+document.getElementById("percentage")
+.innerHTML =
+percentage.toFixed(2)+"%";
+
+}
+
+function predictPresent(){
+
+let days =
+parseInt(document.getElementById("futureDays").value);
+
+if(isNaN(days) || days<=0){
+
+alert("Enter valid number");
+return;
+
+}
+
+let futurePresent =
+presentClasses + days;
+
+let futureTotal =
+totalClasses + days;
+
+let result =
+(futurePresent/futureTotal)*100;
+
+document.getElementById("predictionResult")
+.innerHTML =
+"If All Present : "
++ result.toFixed(2) + "%";
+
+}
+
+function predictAbsent(){
+
+let days =
+parseInt(document.getElementById("futureDays").value);
+
+if(isNaN(days) || days<=0){
+
+alert("Enter valid number");
+return;
+
+}
+
+let futureTotal =
+totalClasses + days;
+
+let result =
+(presentClasses/futureTotal)*100;
+
+document.getElementById("predictionResult")
+.innerHTML =
+"If All Absent : "
++ result.toFixed(2) + "%";
+
+}
+
+</script>
+
+</body>
+</html>

@@ -7,17 +7,18 @@
 <title>Student Attendance Management System</title>
 <script src="project.jsx"></script>
 <style>
-
-body{
-    font-family: Arial, sans-serif;
-    background:#f4f4f9;
+*{
     margin:0;
-    padding:20px;
-    text-align:center;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
 }
 
-h1{
-    color:#0f172a;
+body{
+    background:linear-gradient(135deg,#eef2ff,#f8fafc);
+    min-height:100vh;
+    padding:30px;
+    color:#1e293b;
 }
 
 .container{
@@ -25,66 +26,149 @@ h1{
     margin:auto;
 }
 
+h1{
+    font-size:40px;
+    color:#0f172a;
+    margin-bottom:10px;
+}
+
+p{
+    color:#64748b;
+}
+
 .card{
-    background:white;
-    padding:20px;
-    border-radius:15px;
-    margin:20px 0;
-    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+    background:#ffffff;
+    border-radius:20px;
+    padding:30px;
+    margin:25px 0;
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-3px);
+}
+
+h2{
+    margin-bottom:20px;
+    color:#111827;
 }
 
 input{
-    padding:10px;
-    margin:5px;
-    border:1px solid #ccc;
-    border-radius:8px;
+    width:260px;
+    padding:14px;
+    border:1px solid #dbeafe;
+    border-radius:12px;
+    outline:none;
+    margin:8px;
+    font-size:15px;
+    background:#f8fafc;
+}
+
+input:focus{
+    border-color:#3b82f6;
+    box-shadow:0 0 10px rgba(59,130,246,.2);
 }
 
 button{
-    padding:10px 15px;
+    padding:14px 22px;
     border:none;
-    border-radius:8px;
-    cursor:pointer;
+    border-radius:12px;
     color:white;
+    cursor:pointer;
+    font-weight:600;
+    transition:.3s;
+}
+
+button:hover{
+    transform:scale(1.05);
 }
 
 .add-btn{
-    background:#2563eb;
+    background:linear-gradient(90deg,#8ddfa6,#3b82f6);
 }
 
 .present{
-    background:#16a34a;
+    background:linear-gradient(90deg,#16a34a,#22c55e);
 }
 
 .absent{
-    background:#dc2626;
+    background:linear-gradient(90deg,#3aa1ca,#ef4444);
 }
 
 .predict{
-    background:#7c3aed;
+    background:linear-gradient(90deg,#4be8dd,#9578b0);
 }
 
 table{
     width:100%;
     border-collapse:collapse;
-    margin-top:15px;
+    margin-top:20px;
+    overflow:hidden;
+    border-radius:15px;
 }
 
 th{
-    background:linear-gradient(90deg,#7c3aed,#3b82f6);
+    background:linear-gradient(90deg,#1cb8c9,#bddb70);
     color:white;
-    padding:12px;
+    padding:15px;
+    font-size:16px;
 }
 
 td{
-    padding:12px;
-    border-bottom:1px solid #ddd;
+    padding:15px;
+    border-bottom:1px solid #e5e7eb;
+    background:white;
+}
+
+tr:hover td{
+    background:#f8fafc;
 }
 
 #percentage{
-    font-size:50px;
+    font-size:70px;
     font-weight:bold;
-    color:#4f46e5;
+    background:linear-gradient(90deg,#76be3e,#a1b7e7);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+#predictionResult{
+    margin-top:20px;
+    font-size:20px;
+    font-weight:bold;
+    color:#2563eb;
+}
+
+#currentDate,
+#dateRange{
+    margin-top:15px;
+    font-size:16px;
+    font-weight:500;
+}
+
+@media(max-width:768px){
+
+    body{
+        padding:15px;
+    }
+
+    input{
+        width:100%;
+    }
+
+    button{
+        width:100%;
+        margin-top:10px;
+    }
+
+    h1{
+        font-size:28px;
+    }
+
+    #percentage{
+        font-size:50px;
+    }
 }
 
 </style>
